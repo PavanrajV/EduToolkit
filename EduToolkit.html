@@ -67,13 +67,15 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size:1.5rem;
+            font-weight:700;
+            background:linear-gradient(135deg,#6366f1,#8b5cf6);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            display:flex;
+            align-items:center;
+            gap:0.5rem;
+            margin-bottom:2rem;
         }
 
         .nav-group {
@@ -115,6 +117,7 @@
             background: var(--primary);
             color: white;
             transform: translateX(4px);
+            box-shadow:0 6px 15px rgba(99,102,241,0.3);
         }
 
         .nav-item.active {
@@ -299,6 +302,12 @@
             cursor:pointer;
         }
 
+        .favorite:hover{
+            color:#fbbf24;
+            opacity:1;
+            transform:scale(1.2);
+        }
+
         .count {
             margin-left:auto;
             opacity:0.6;
@@ -312,7 +321,7 @@
 
         .tool-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+            box-shadow:0 20px 40px rgba(99,102,241,0.15),0 0 0 1px rgba(99,102,241,0.1);
             border-color: var(--primary);
             background: var(--glass-light);
         }
@@ -330,6 +339,12 @@
             color: var(--primary);
             transition: transform 0.3s ease;
         }
+
+        .section-title.calculators ~ .tool-grid .tool-icon{color:#3b82f6;}
+        .section-title.productivity ~ .tool-grid .tool-icon{color:#8b5cf6;}
+        .section-title.study ~ .tool-grid .tool-icon{color:#10b981;}
+        .section-title.utilities ~ .tool-grid .tool-icon{color:#f59e0b;}
+        .section-title.text ~ .tool-grid .tool-icon{color:#06b6d4;}
 
         .tool-card:hover .tool-icon {
             transform: scale(1.1) rotate(5deg);
@@ -355,8 +370,9 @@
 
         .widget {
             background: var(--glass-light);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow:0 8px 25px rgba(0,0,0,0.05);
             border-radius: 1.25rem;
             padding: 1.5rem;
             transition: all 0.3s ease;
@@ -455,6 +471,21 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        body {
+            animation:fadePage 0.6s ease;
+        }
+
+        @keyframes fadePage {
+            from{
+                opacity:0;
+                transform:translateY(10px);
+            }
+            to {
+                opacity:1;
+                transform:translateY(0);
             }
         }
 
@@ -559,7 +590,7 @@
             <div class="search-container">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search tools...">
+                    <input type="text" id="searchInput" placeholder="Search tools... (Ctrl + K)">
                 </div>
             </div>
 
@@ -609,9 +640,18 @@
                     Recently Used
                 </div>
                 <div class="tool-grid">
-                    <a class="tool-card"><i class="tool-icon fas fa-hourglass"></i>Pomodoro</a>
-                    <a class="tool-card"><i class="tool-icon fas fa-calculator"></i>Calculator</a>
-                    <a class="tool-card"><i class="tool-icon fas fa-sticky-note"></i>Notes</a>
+                    <a class="tool-card">
+                        <i class="tool-icon fas fa-hourglass"></i>
+                        <div class="tool-name">Pomodoro</div>
+                    </a>
+                    <a class="tool-card">
+                        <i class="tool-icon fas fa-calculator"></i>
+                        <div class="tool-name">Calculator</div>
+                    </a>
+                    <a class="tool-card">
+                        <i class="tool-icon fas fa-sticky-note"></i>
+                        <div class="tool-name">Notes</div>
+                    </a>
                 </div>
             </div>
 
@@ -833,6 +873,14 @@
             }
         });
 
+        document.querySelectorAll(".favorite").forEach(star=>{
+            star.addEventListener("click",function(e){
+                e.stopPropagation();
+                this.classList.toggle("active");
+                this.style.color=this.classList.contains("active")?"#fbbf24":"";
+            });
+        });
+
         function animateValue(id, start, end, duration) {
             let obj = document.getElementById(id);
             let range = end - start;
@@ -849,6 +897,7 @@
             }, stepTime);
         }
         animateValue("streakCount",0,12,800);
+        animateValue("goalsCompleted",0,3,800);
     </script>
     
 </body>
