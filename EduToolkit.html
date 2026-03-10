@@ -28,6 +28,10 @@
             --glass-dark: rgba(30, 41, 59, 0.7);
         }
 
+        html {
+            scroll-behavior:smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-light);
@@ -160,6 +164,11 @@
             color: white;
             border-color: var(--primary);
         }
+        .welcome-text {
+            font-size:0.95rem;
+            opacity:0.7;
+            margin-top:4px;
+        }
 
         /* MAIN CONTENT */
         .main-content {
@@ -248,6 +257,11 @@
             color: var(--primary);
             font-size: 1.5rem;
         }
+        .section-title.calculators i{color:#3b82f6;}
+        .section-title.productivity i{color:#8b5cf6;}
+        .section-title.study i{color:#10b981;}
+        .section-title.utilities i{color:#f59e0b;}
+        .section-title.text i{color:#06b6d4;}
 
         /* TOOL GRID */
         .tool-grid {
@@ -257,6 +271,7 @@
         }
 
         .tool-card {
+            position:relative;
             background: var(--glass-light);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -275,6 +290,21 @@
             color: inherit;
         }
 
+        .favorite {
+            position:absolute;
+            top:10px;
+            right:12px;
+            font-size:0.9rem;
+            opacity:0.6;
+            cursor:pointer;
+        }
+
+        .count {
+            margin-left:auto;
+            opacity:0.6;
+            font-size:0.8rem;
+        }
+
         body.dark-mode .tool-card {
             background: var(--glass-dark);
             border-color: rgba(148, 163, 184, 0.2);
@@ -285,6 +315,10 @@
             box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
             border-color: var(--primary);
             background: var(--glass-light);
+        }
+
+        .tool-card:active {
+            transform:scale(0.97);
         }
 
         body.dark-mode .tool-card:hover {
@@ -334,7 +368,9 @@
         }
 
         .widget:hover {
-            border-color: var(--primary);
+            border-color:var(--primary);
+            transform:translateY(-4px);
+            box-shadow:0 15px 30px rgba(99,102,241,0.15);
         }
 
         .widget-title {
@@ -474,23 +510,23 @@
                 <div class="nav-group-title">Tools</div>
                 <a class="nav-item" href="#calculators">
                     <i class="fas fa-calculator"></i>
-                    Calculators
+                    Calculators <span class="count">(15)</span>
                 </a>
                 <a class="nav-item" href="#productivity">
                     <i class="fas fa-rocket"></i>
-                    Productivity
+                    Productivity <span class="count">(10)</span>
                 </a>
                 <a class="nav-item" href="#study">
                     <i class="fas fa-book"></i>
-                    Study Tools
+                    Study Tools <span class="count">(12)</span>
                 </a>
                 <a class="nav-item" href="#utilities">
                     <i class="fas fa-tools"></i>
-                    Utilities
+                    Utilities <span class="count">(18)</span>
                 </a>
                 <a class="nav-item" href="#text">
                     <i class="fas fa-font"></i>
-                    Text Tools
+                    Text Tools <span class="count">(9)</span>
                 </a>
             </div>
 
@@ -515,6 +551,7 @@
             <div class="header">
                 <div>
                     <h1>Dashboard</h1>
+                    <p class="welcome-text">Good Evening, Pavan 👋 Ready to continue learning today?</p>
                 </div>
             </div>
 
@@ -566,6 +603,18 @@
                 </div>
             </div>
 
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    Recently Used
+                </div>
+                <div class="tool-grid">
+                    <a class="tool-card"><i class="tool-icon fas fa-hourglass"></i>Pomodoro</a>
+                    <a class="tool-card"><i class="tool-icon fas fa-calculator"></i>Calculator</a>
+                    <a class="tool-card"><i class="tool-icon fas fa-sticky-note"></i>Notes</a>
+                </div>
+            </div>
+
             <!-- QUICK ACCESS TOOLS -->
             <div class="section">
                 <div class="section-title">
@@ -574,6 +623,7 @@
                 </div>
                 <div class="tool-grid">
                     <a class="tool-card" href="#calculator">
+                        <i class="fas fa-star favorite"></i>
                         <i class="tool-icon fas fa-calculator"></i>
                         <div class="tool-name">Calculator</div>
                         <div class="tool-description">Quick calculations</div>
@@ -598,7 +648,7 @@
 
             <!-- CALCULATORS -->
             <div class="section">
-                <div class="section-title">
+                <div class="section-title calculators">
                     <i class="fas fa-calculator"></i>
                     Calculators
                 </div>
@@ -775,6 +825,31 @@
         }
 
         setInterval(updateQuote, 60000);
+
+        document.addEventListener("keydown",function(e) {
+            if(e.ctrlKey && e.key==="k") {
+                e.preventDefault();
+                document.getElementById("searchInput").focus();
+            }
+        });
+
+        function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            let range = end - start;
+            let current = start;
+            let increment = end > start ? 1 : -1;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            
+            let timer = setInterval(function() {
+                current += increment;
+                obj.textContent = current;
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+        animateValue("streakCount",0,12,800);
     </script>
+    
 </body>
 </html>
